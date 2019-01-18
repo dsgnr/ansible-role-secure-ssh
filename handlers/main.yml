@@ -1,0 +1,13 @@
+---
+
+- name: Restart sshd on CentOS/RHEL
+  service:
+    name: sshd
+    state: restarted
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Restart ssh on Debian/Ubuntu
+  service:
+    name: ssh
+    state: restarted
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'

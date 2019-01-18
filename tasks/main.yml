@@ -1,0 +1,35 @@
+---
+
+- name: Install SSH
+  package:
+    name: openssh-server
+    state: present
+
+- name: Secure SSH config
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication yes"
+    - regexp: "^PermitEmptyPasswords"
+      line: "PermitEmptyPasswords no"
+    - regexp: "^PermitRootLogin"
+      line: "PermitRootLogin no"
+    - regexp: "^Port"
+      line: "Port 22"
+    - regexp: "^ChallengeResponseAuthentication"
+      line: "ChallengeResponseAuthentication no"
+    - regexp: "^UseDNS"
+      line: "UseDNS no"
+    - regexp: "^UsePAM"
+      line: "UsePAM yes"
+    - regexp: "^GSSAPIAuthentication"
+      line: "GSSAPIAuthentication no"
+    - regexp: "^X11Forwarding"
+      line: "X11Forwarding no"
+  notify:
+    - Restart sshd on CentOS/RHEL
+    - Restart ssh on Debian/Ubuntu

@@ -1,0 +1,19 @@
+---
+language: python
+services: docker
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+
+before_script:
+  - cd ../
+  - mv ansible-role-secure-ssh secure-ssh
+  - cd secure-ssh
+
+install:
+  - pip install molecule docker
+
+script:
+  - molecule test
